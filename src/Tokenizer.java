@@ -1,11 +1,21 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class Tokenizer
 {
     private String[] tokens;
     private String sentences;
     private String[] stopWords;
+    private String fileName;
 
-    public Tokenizer(String input)
-    {
+    public Tokenizer(String file) throws FileNotFoundException {
+        this.fileName=file;
+
+        Scanner fileScanner = new Scanner(new File("sentences.txt"));
+        fileScanner.useDelimiter("\\Z");
+        String input = fileScanner.next();
+
         this.sentences=input;
 
         //Get from file instead?
@@ -36,7 +46,7 @@ public class Tokenizer
     {
 
         String[] temp = sentence.split(" ");
-        String newSentence="";
+        StringBuilder newSentence= new StringBuilder();
 
         for(int i=0; i<temp.length;i++)
         {
@@ -48,10 +58,10 @@ public class Tokenizer
                 }
             }
 
-            newSentence+=" " + temp[i];
+            newSentence.append(" ").append(temp[i]);
         }
 
-        return newSentence;
+        return newSentence.toString();
     }
 
     public String[] getTokens()
