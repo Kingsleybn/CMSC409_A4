@@ -48,15 +48,12 @@ public class TDMer
                         this.words.add(tempWords[j]);
 
                         //Add a new column to TDM and increment
-                        int[] test = new int[3];
-                        test[0]=0;
-                        test[1]=0;
-                        test[2]=0;
+                        int[] test = new int[this.cols];
+                        for(int g=0; g<this.cols; g++){ test[g]=0; }
                         tempTDM.add(test);
 
                         index=this.words.indexOf(tempWords[j]);
                         tempTDM.get(index)[i]++;
-
                     }
                 }
             }

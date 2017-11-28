@@ -5,17 +5,12 @@ import java.util.Scanner;
 public class Tokenizer
 {
     private String[] tokens;
-    private String sentences;
+    private String[] sentences;
     private String[] stopWords;
     private String fileName;
 
-    public Tokenizer(String file) throws FileNotFoundException {
-        this.fileName=file;
-
-        Scanner fileScanner = new Scanner(new File("sentences.txt"));
-        fileScanner.useDelimiter("\\Z");
-        String input = fileScanner.next();
-
+    public Tokenizer(String[] input)
+    {
         this.sentences=input;
 
         //Get from file instead?
@@ -23,22 +18,23 @@ public class Tokenizer
         this.tokens=this.tokenize(input);
     }
 
-    public String[] tokenize(String input)
+    public String[] tokenize(String[] input)
     {
+        String temp;
 
-        String[] temp = input.split("\b");
-
-        for(int i=0; i<temp.length; i++)
+        for(int i=0; i<input.length; i++)
         {
             //Remove punctuation and numbers
-            temp[i] = temp[i].replaceAll("[^a-zA-Z ]", "");
-            temp[i] = temp[i].replaceAll("\\s{2,}", " ").trim();
+            temp = input[i].replaceAll("[^a-zA-Z ]", "");
+            temp = temp.replaceAll("\\s{2,}", " ").trim();
 
             //Remove stop words
-            temp[i]=removeStopWords(temp[i].toLowerCase());
+            temp=removeStopWords(temp.toLowerCase());
+
+            input[i]=temp;
         }
 
-        return temp;
+        return input;
     }
 
     //Remove stop words from each sentence
