@@ -38,11 +38,8 @@ public class CMSC409_A4 {
             sb.delete(0, sb.length());
         }
 
-
-
-
         //Build and print TDM
         TDMer tdm = new TDMer(tokens);
-        //tdm.printTDM();
+        tdm.printTDM();
     }
 }

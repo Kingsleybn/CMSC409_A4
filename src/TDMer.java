@@ -63,11 +63,11 @@ public class TDMer
     }
 
     //Print word list and TDM
-    public void printTDM()
+    void printTDM()
     {
         for(int i=0; i<this.words.size(); i++)
         {
-            System.out.print(this.words.get(i)+"\t");
+            System.out.print(padRight(this.words.get(i),15));
 
             for (int j=0;j<this.cols;j++)
             {
@@ -76,6 +76,10 @@ public class TDMer
 
             System.out.println();
         }
+    }
+
+    public static String padRight(String s, int n) {
+        return String.format("%1$-" + n + "s", s);
     }
 }
 
