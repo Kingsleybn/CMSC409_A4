@@ -1,8 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.*;
 
 public class CMSC409_A4 {
     public static void main(String[] args) throws FileNotFoundException {
@@ -45,5 +44,44 @@ public class CMSC409_A4 {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        ArrayList<ArrayList<Double>> tf = new ArrayList<>();
+        ArrayList<Double> idf = new  ArrayList<>();
+        List<List<Integer>> tranposedData = transpose(tdm.TDM);
+
+        for (ArrayList<Integer> integers : tdm.TDM) {
+            int count = 0;
+            for (Integer integer : integers) {
+                if (integer != 0){
+                    count++;
+                }
+            }
+            idf.add(Math.log(27/count)/Math.log(2));
+        }
+
+        System.out.println(tranposedData.toString());
+
+        for (List<Integer> tranposedDatum : tranposedData) {
+            Double max = (double)Collections.max(tranposedDatum);
+            ArrayList<Double> tfTemp = new ArrayList<>();
+            for (int i = 0; i < tranposedDatum.size(); i++) {
+                Double occurrence = (double) tranposedDatum.get(i);
+                tfTemp.add(occurrence/max);
+            }
+        }
     }
+
+    public static <T> List<List<T>> transpose(ArrayList<ArrayList<T>> table) {
+        List<List<T>> ret = new ArrayList<List<T>>();
+        final int N = table.get(0).size();
+        for (int i = 0; i < N; i++) {
+            List<T> col = new ArrayList<T>();
+            for (List<T> row : table) {
+                col.add(row.get(i));
+            }
+            ret.add(col);
+        }
+        return ret;
+    }
+
 }

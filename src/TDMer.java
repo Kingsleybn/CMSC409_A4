@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class TDMer {
-    private String[] sentences;
-    private ArrayList<int[]> TDM;
-    private ArrayList<String> words;
-    private int cols;
+    public String[] sentences;
+    public ArrayList<ArrayList<Integer>> TDM;
+    public ArrayList<String> words;
+    public int cols;
 
     public TDMer(String[] input) {
         this.sentences = input;
@@ -16,11 +16,11 @@ public class TDMer {
         this.TDM = this.buildTDM();
     }
 
-    private ArrayList<int[]> buildTDM() {
+    private ArrayList<ArrayList<Integer>> buildTDM() {
         String[] tempWords;
         int index;
 
-        ArrayList<int[]> tempTDM = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> tempTDM = new ArrayList<>();
 
         //Repeat for each sentence
         for (int i = 0; i < this.cols; i++) {
@@ -34,8 +34,7 @@ public class TDMer {
                     if (this.words.contains(tempWords[j])) {
                         //Look up word in word list and increment TDM
                         index = this.words.indexOf(tempWords[j]);
-                        tempTDM.get(index)[i]++;
-
+                        tempTDM.get(index).set(i, tempTDM.get(index).get(i)+1);
                     }
                     //Add word to TDM if needed
                     else {
@@ -43,14 +42,14 @@ public class TDMer {
                         this.words.add(tempWords[j]);
 
                         //Add a new column to TDM and increment
-                        int[] test = new int[this.cols];
+                        ArrayList<Integer> test = new ArrayList<>();
                         for (int g = 0; g < this.cols; g++) {
-                            test[g] = 0;
+                            test.add(0);
                         }
                         tempTDM.add(test);
 
                         index = this.words.indexOf(tempWords[j]);
-                        tempTDM.get(index)[i]++;
+                        tempTDM.get(index).set(i, tempTDM.get(index).get(i)+1);
                     }
                 }
             }
@@ -69,8 +68,8 @@ public class TDMer {
             fw.write(this.words.get(i) + ",");
 
             for (int j = 0; j < this.cols; j++) {
-                System.out.print(this.TDM.get(i)[j] + " ");
-                fw.write(this.TDM.get(i)[j] + ",");
+                System.out.print(this.TDM.get(i).get(j) + " ");
+                fw.write(this.TDM.get(i).get(j) + ",");
             }
             System.out.println();
             fw.write("\n");
