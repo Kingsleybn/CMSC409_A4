@@ -82,6 +82,7 @@ class TDMer {
         return finalWordList.toString();
     }
 
+
     private static String padRight(String s) {
         return String.format("%1$-" + 15 + "s", s);
     }
