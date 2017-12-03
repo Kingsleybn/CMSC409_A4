@@ -1,4 +1,4 @@
-%JULIA HEADER
+	%JULIA HEADER
 
 \documentclass{article}
 \usepackage{hyperref}
@@ -8,6 +8,8 @@
 \usepackage{array}
 \usepackage{graphicx} % Required to insert images
 \usepackage{subcaption}
+\usepackage{longtable,csvsimple}
+\usepackage{datatool}
 
 \graphicspath{{../}}
 
@@ -97,6 +99,19 @@ To reform a sentence
 \subsubsection{Data Lost}
 
 N/A
+
+\section{TDM}
+
+\csvautolongtable[
+table head={
+	\caption{some table}\label{tab:some} \\
+	\hline
+	\endfirsthead
+	\hline
+	\endfoot
+},respect all]{TDMTemp.csv}
+
+\end{document}
 
 \begin{appendices}
 	
