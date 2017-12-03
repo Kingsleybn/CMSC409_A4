@@ -45,7 +45,7 @@ public class CMSC409_A4 {
             e.printStackTrace();
         }
 
-        ArrayList<ArrayList<Double>> tf = new ArrayList<>();
+        ArrayList<ArrayList<Double>> tf_idf = new ArrayList<>();
         ArrayList<Double> idf = new  ArrayList<>();
         List<List<Integer>> tranposedData = transpose(tdm.TDM);
 
@@ -66,9 +66,11 @@ public class CMSC409_A4 {
             ArrayList<Double> tfTemp = new ArrayList<>();
             for (int i = 0; i < tranposedDatum.size(); i++) {
                 Double occurrence = (double) tranposedDatum.get(i);
-                tfTemp.add(occurrence/max);
+                tfTemp.add((occurrence/max) * idf.get(i));
             }
+            tf_idf.add(tfTemp);
         }
+        System.out.println(tf_idf);
     }
 
     public static <T> List<List<T>> transpose(ArrayList<ArrayList<T>> table) {
