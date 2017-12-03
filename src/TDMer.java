@@ -3,13 +3,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TDMer {
+class TDMer {
     private String[] sentences;
     private ArrayList<int[]> TDM;
     private ArrayList<String> words;
     private int cols;
 
-    public TDMer(String[] input) {
+    TDMer(String[] input) {
         this.sentences = input;
         this.cols = input.length;
         this.words = new ArrayList<>();
@@ -27,20 +27,20 @@ public class TDMer {
             tempWords = this.sentences[i].split(" ");
 
             //Repeat for each word in sentence
-            for (int j = 0; j < tempWords.length; j++) {
+            for (String tempWord : tempWords) {
                 //Ignore spaces
-                if (!tempWords[j].equals(" ") && !tempWords[j].equals("")) {
+                if (!tempWord.equals(" ") && !tempWord.equals("")) {
                     //See if word has been used before
-                    if (this.words.contains(tempWords[j])) {
+                    if (this.words.contains(tempWord)) {
                         //Look up word in word list and increment TDM
-                        index = this.words.indexOf(tempWords[j]);
+                        index = this.words.indexOf(tempWord);
                         tempTDM.get(index)[i]++;
 
                     }
                     //Add word to TDM if needed
                     else {
                         //Add word to word list
-                        this.words.add(tempWords[j]);
+                        this.words.add(tempWord);
 
                         //Add a new column to TDM and increment
                         int[] test = new int[this.cols];
@@ -49,7 +49,7 @@ public class TDMer {
                         }
                         tempTDM.add(test);
 
-                        index = this.words.indexOf(tempWords[j]);
+                        index = this.words.indexOf(tempWord);
                         tempTDM.get(index)[i]++;
                     }
                 }
@@ -59,14 +59,17 @@ public class TDMer {
     }
 
     //Print word list and TDM
-    void printTDM() throws IOException {
+    String printTDM() throws IOException {
         File file = new File("TDM.csv");
 
         FileWriter fw = new FileWriter(file);
 
+        StringBuilder finalWordList = new StringBuilder();
+
         for (int i = 0; i < this.words.size(); i++) {
-            System.out.print(padRight(this.words.get(i), 15));
+            System.out.print(padRight(this.words.get(i)));
             fw.write(this.words.get(i) + ",");
+            finalWordList.append(this.words.get(i)).append(" ");
 
             for (int j = 0; j < this.cols; j++) {
                 System.out.print(this.TDM.get(i)[j] + " ");
@@ -76,10 +79,11 @@ public class TDMer {
             fw.write("\n");
         }
         fw.close();
+        return finalWordList.toString();
     }
 
-    public static String padRight(String s, int n) {
-        return String.format("%1$-" + n + "s", s);
+    private static String padRight(String s) {
+        return String.format("%1$-" + 15 + "s", s);
     }
 }
 

@@ -1,13 +1,9 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-
-public class Tokenizer
+class Tokenizer
 {
     private String[] tokens;
     private String[] stopWords;
 
-    public Tokenizer(String[] input)
+    Tokenizer(String[] input)
     {
         this.stopWords=("a able about across after all almost also am among an and any are as at be because " +
                 "been but by can cannot could dear did do does either else ever every for from get got had " +
@@ -19,7 +15,7 @@ public class Tokenizer
         this.tokens=this.tokenize(input);
     }
 
-    public String[] tokenize(String[] input)
+    private String[] tokenize(String[] input)
     {
         String temp;
 
@@ -27,7 +23,6 @@ public class Tokenizer
         {
             //Remove punctuation and numbers
             temp = input[i].replaceAll("[^a-zA-Z ]", "");
-            temp = temp.replaceAll("\\s{2,}", " ").trim();
 
             //Remove stop words
             temp=removeStopWords(temp.toLowerCase());
@@ -61,7 +56,7 @@ public class Tokenizer
         return newSentence.toString();
     }
 
-    public String[] getTokens()
+    String[] getTokens()
     {
         return this.tokens;
     }

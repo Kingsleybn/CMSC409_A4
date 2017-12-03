@@ -19,13 +19,17 @@ public class CMSC409_A4 {
         //Get tokens for each sentence
         Tokenizer t = new Tokenizer(sentences);
         String[] tokens = t.getTokens();
+        for (int i = 0; i < tokens.length; i++) {
+            tokens[i] = tokens[i].replaceAll(" +", " ").trim();
+        }
+
         Stemmer stemmer = new Stemmer();
 
         StringBuilder sb = new StringBuilder();
 
         // Stemming then combining
         for (int i = 0; i < tokens.length; i++) {
-            String[] sentenceToken = tokens[i].split("\\s+");
+            String[] sentenceToken = tokens[i].split(" ");
             for (String s : sentenceToken) {
                 tokens[i] = "";
                 stemmer.add(s.toCharArray(), s.length());
@@ -37,13 +41,21 @@ public class CMSC409_A4 {
             sb.delete(0, sb.length());
         }
 
+        for (String token : tokens) {
+            System.out.println(token);
+        }
+
+        String finalWordList = "";
 
         //Build and print TDM, outputs to TDM.csv
         TDMer tdm = new TDMer(tokens);
         try {
-            tdm.printTDM();
+            finalWordList = tdm.printTDM().trim();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        TFIDFCalc tfidfCalc = new TFIDFCalc(tokens, finalWordList);
+        tfidfCalc.calc();
     }
 }
