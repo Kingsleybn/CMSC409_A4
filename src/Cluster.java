@@ -5,7 +5,6 @@ public class Cluster {
 
     private List<Sentence> sentences = new ArrayList<>();
     private Sentence centroid = null;
-    private Cluster oldCluster;
 
     Cluster() {
     }
@@ -16,10 +15,6 @@ public class Cluster {
 
     void setCentroid(Sentence centroid) {
         this.centroid = centroid;
-    }
-
-    Cluster getOldCluster() {
-        return oldCluster;
     }
 
     void addSentenceToCluster(Sentence sentence) {
@@ -52,16 +47,8 @@ public class Cluster {
         return sentences.get(index);
     }
 
-    void saveOldCluster() {
-        this.oldCluster = this;
-    }
-
     void clearCluster() {
         sentences.clear();
-    }
-
-    boolean compareClusters() {
-        return oldCluster.equals(this);
     }
 
     public String toString() {

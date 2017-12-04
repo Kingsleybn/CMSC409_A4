@@ -57,16 +57,16 @@ public class CMSC409_A4 {
 
         // Get initial clustering with 5 clusters, sentence # 2, 5, 10, 15, 20, which are arbitrarily chosen
         List<Cluster> clusters = new ArrayList<>();
+        List<Cluster> oldCluster = new ArrayList<>();
         List<Sentence> centroids = new ArrayList<>();
         centroids.add(clusterSentences.get(0));
         centroids.add(clusterSentences.get(1));
         centroids.add(clusterSentences.get(3));
-        centroids.add(clusterSentences.get(13));
-        centroids.add(clusterSentences.get(15));
-        centroids.add(clusterSentences.get(21));
 
+        // initializes lists
         for (int i = 0; i < centroids.size(); i++) {
             clusters.add(new Cluster());
+            oldCluster.add(new Cluster());
             clusters.get(i).setCentroid(centroids.get(i));
         }
 
@@ -114,20 +114,21 @@ public class CMSC409_A4 {
             // Checks to see if clusters have changed
             if (count > 1) {
                 boolean compareCluster = true;
-                for (Cluster cluster : clusters) {
-                    if (!cluster.compareClusters()) compareCluster = false;
+                for (int i = 0; i < clusters.size(); i++) {
+                    if (!oldCluster.get(i).equals(clusters.get(i))) compareCluster = false;
                 }
                 if (compareCluster) break;
             }
 
             // Calculate new medoids
             centroids.clear();
-            for (Cluster cluster : clusters) {
+            for (int i = 0; i < clusters.size(); i++) {
+                Cluster cluster = clusters.get(i);
                 cluster.setCentroid(cluster.calculateNewMedoid());
                 centroids.add(cluster.getCentroid());
 
                 // Get ready for next iteration
-                cluster.saveOldCluster();
+                oldCluster.set(i, cluster);
                 cluster.clearCluster();
             }
             count++;

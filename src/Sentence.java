@@ -5,7 +5,7 @@ class Sentence {
     private String originalSentence;
     private List<Integer> termFrequency = new ArrayList<>();
     private int sentenceID;
-    private double[] distance = new double[6];
+    private double[] distance = new double[3];
 
     Sentence getCentroid() {
         return centroid;
