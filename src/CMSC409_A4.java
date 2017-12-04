@@ -122,13 +122,12 @@ public class CMSC409_A4 {
 
             // Calculate new medoids
             centroids.clear();
-            for (int i = 0; i < clusters.size(); i++) {
-                Cluster cluster = clusters.get(i);
+            oldCluster = new ArrayList<>(clusters);
+            for (Cluster cluster : clusters) {
                 cluster.setCentroid(cluster.calculateNewMedoid());
                 centroids.add(cluster.getCentroid());
 
                 // Get ready for next iteration
-                oldCluster.set(i, cluster);
                 cluster.clearCluster();
             }
             count++;
