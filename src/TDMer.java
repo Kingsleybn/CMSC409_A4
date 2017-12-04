@@ -64,7 +64,7 @@ public class TDMer {
         FileWriter fw = new FileWriter(file);
 
         for (int i = 0; i < this.words.size(); i++) {
-            System.out.print(padRight(this.words.get(i), 15));
+            System.out.print(padRight(this.words.get(i)));
             fw.write(this.words.get(i) + ",");
 
             for (int j = 0; j < this.cols; j++) {
@@ -77,8 +77,8 @@ public class TDMer {
         fw.close();
     }
 
-    public static String padRight(String s, int n) {
-        return String.format("%1$-" + n + "s", s);
+    private static String padRight(String s) {
+        return String.format("%1$-" + 15 + "s", s);
     }
 }
 
