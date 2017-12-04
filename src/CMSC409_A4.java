@@ -58,20 +58,20 @@ public class CMSC409_A4 {
         // Get initial clustering with 5 clusters, sentence # 2, 5, 10, 15, 20, which are arbitrarily chosen
         List<Cluster> clusters = new ArrayList<>();
         List<Sentence> centroids = new ArrayList<>();
+        centroids.add(clusterSentences.get(0));
         centroids.add(clusterSentences.get(1));
-        centroids.add(clusterSentences.get(4));
-        centroids.add(clusterSentences.get(9));
-        centroids.add(clusterSentences.get(14));
-        centroids.add(clusterSentences.get(19));
+        centroids.add(clusterSentences.get(3));
+        centroids.add(clusterSentences.get(13));
+        centroids.add(clusterSentences.get(15));
+        centroids.add(clusterSentences.get(21));
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < centroids.size(); i++) {
             clusters.add(new Cluster());
-            clusters.get(i).addSentenceToCluster(centroids.get(i));
+            clusters.get(i).setCentroid(centroids.get(i));
         }
 
-        // Array lists to compare old and new clusters
-
-
+        // Main clustering algorithm
+        int count = 0;
         while (true) {
 
             // Calculate minimum distance for from sentences to the 5 centroids, then choosing the closest
@@ -88,46 +88,56 @@ public class CMSC409_A4 {
 
                 for (int j = 0; j < temp.getDistance().length; j++) {
                     if (minimum > temp.getDistance()[j]) {
-                        index = i;
+                        index = j;
                         minimum = temp.getDistance()[j];
                     }
                 }
 
+                temp.setCentroid(centroids.get(index));
+                clusterSentences.set(i, temp);
             }
 
-        }
+            // Add one centroid to one cluster
+            for (int i = 0; i < clusters.size(); i++) {
+                clusters.get(i).setCentroid(centroids.get(i));
+            }
 
-
-
-
-
-
-        /*ArrayList<ArrayList<Double>> tf_idf = new ArrayList<>();
-        ArrayList<Double> idf = new  ArrayList<>();
-
-        for (ArrayList<Integer> integers : tdm.TDM) {
-            int count = 0;
-            for (Integer integer : integers) {
-                if (integer != 0){
-                    count++;
+            // Add sentences to their clusters
+            for (Sentence sentence : clusterSentences) {
+                for (Cluster cluster : clusters) {
+                    if (sentence.getCentroid().equals(cluster.getCentroid())) {
+                        cluster.addSentenceToCluster(sentence);
+                    }
                 }
             }
-            idf.add(Math.log(27/count));
-        }
 
-        for (List<Integer> tranposedDatum : transposedData) {
-            Double max = (double)Collections.max(tranposedDatum);
-            ArrayList<Double> tfTemp = new ArrayList<>();
-            for (int i = 0; i < tranposedDatum.size(); i++) {
-                Double occurrence = (double) tranposedDatum.get(i);
-                tfTemp.add((occurrence/max) * idf.get(i));
+            // Checks to see if clusters have changed
+            if (count > 1) {
+                boolean compareCluster = true;
+                for (Cluster cluster : clusters) {
+                    if (!cluster.compareClusters()) compareCluster = false;
+                }
+                if (compareCluster) break;
             }
-            tf_idf.add(tfTemp);
+
+            // Calculate new medoids
+            centroids.clear();
+            for (Cluster cluster : clusters) {
+                cluster.setCentroid(cluster.calculateNewMedoid());
+                centroids.add(cluster.getCentroid());
+
+                // Get ready for next iteration
+                cluster.saveOldCluster();
+                cluster.clearCluster();
+            }
+            count++;
         }
 
-        for (ArrayList<Double> doubles : tf_idf) {
-            System.out.println(doubles);
-        }*/
+        System.out.println(count - 1 + " iterations ran");
+        for (int i = 0; i < clusters.size(); i++) {
+            System.out.println("Cluster " + i + ": ");
+            System.out.println(clusters.get(i).toString() + "\n");
+        }
     }
 
     private static <T> List<List<T>> transpose(ArrayList<ArrayList<T>> table) {
@@ -142,5 +152,4 @@ public class CMSC409_A4 {
         }
         return ret;
     }
-
 }

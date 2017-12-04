@@ -5,8 +5,17 @@ class Sentence {
     private String originalSentence;
     private List<Integer> termFrequency = new ArrayList<>();
     private int sentenceID;
-    private double[] distance = new double[5];
-    private
+    private double[] distance = new double[6];
+
+    Sentence getCentroid() {
+        return centroid;
+    }
+
+    void setCentroid(Sentence centroid) {
+        this.centroid = centroid;
+    }
+
+    private Sentence centroid = null;
 
     Sentence(String originalSentence, List<Integer> termFrequency, int sentenceID) {
         this.originalSentence = originalSentence;

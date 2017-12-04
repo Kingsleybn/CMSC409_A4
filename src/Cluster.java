@@ -4,16 +4,26 @@ import java.util.List;
 public class Cluster {
 
     private List<Sentence> sentences = new ArrayList<>();
+    private Sentence centroid = null;
+    private Cluster oldCluster;
 
     Cluster() {
     }
 
-    void addSentenceToCluster(Sentence sentence) {
-        sentences.add(sentence);
+    Sentence getCentroid() {
+        return centroid;
     }
 
-    List<Sentence> getSentences() {
-        return sentences;
+    void setCentroid(Sentence centroid) {
+        this.centroid = centroid;
+    }
+
+    Cluster getOldCluster() {
+        return oldCluster;
+    }
+
+    void addSentenceToCluster(Sentence sentence) {
+        sentences.add(sentence);
     }
 
     Sentence calculateNewMedoid() {
@@ -40,6 +50,18 @@ public class Cluster {
         }
 
         return sentences.get(index);
+    }
+
+    void saveOldCluster() {
+        this.oldCluster = this;
+    }
+
+    void clearCluster() {
+        sentences.clear();
+    }
+
+    boolean compareClusters() {
+        return oldCluster.equals(this);
     }
 
     public String toString() {
