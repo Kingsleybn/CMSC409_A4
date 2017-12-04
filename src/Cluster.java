@@ -17,6 +17,14 @@ public class Cluster {
         this.centroid = centroid;
     }
 
+    public List<Sentence> getSentences() {
+        return sentences;
+    }
+
+    public void setSentences(List<Sentence> sentences) {
+        this.sentences = sentences;
+    }
+
     void addSentenceToCluster(Sentence sentence) {
         sentences.add(sentence);
     }

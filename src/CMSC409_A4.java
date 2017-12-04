@@ -112,18 +112,29 @@ public class CMSC409_A4 {
             }
 
             // Checks to see if clusters have changed
-            if (count > 1) {
+
+            for (int i = 0; i < clusters.size(); i++) {
+                System.out.println("Cluster " + i + ": ");
+                System.out.println(clusters.get(i).toString() + "\n");
+            }
+            if (count > 10) break;
+
+            /*if (count > 1) {
                 boolean compareCluster = true;
                 for (int i = 0; i < clusters.size(); i++) {
                     if (!oldCluster.get(i).equals(clusters.get(i))) compareCluster = false;
                 }
                 if (compareCluster) break;
-            }
+            }*/
 
             // Calculate new medoids
             centroids.clear();
-            oldCluster = new ArrayList<>(clusters);
-            for (Cluster cluster : clusters) {
+            for (int i = 0; i < clusters.size(); i++) {
+                Cluster cluster = clusters.get(i);
+                Cluster tempCluster = new Cluster();
+                tempCluster.setCentroid(cluster.getCentroid());
+                tempCluster.setSentences(cluster.getSentences());
+                oldCluster.set(i, tempCluster);
                 cluster.setCentroid(cluster.calculateNewMedoid());
                 centroids.add(cluster.getCentroid());
 
@@ -134,10 +145,7 @@ public class CMSC409_A4 {
         }
 
         System.out.println(count - 1 + " iterations ran");
-        for (int i = 0; i < clusters.size(); i++) {
-            System.out.println("Cluster " + i + ": ");
-            System.out.println(clusters.get(i).toString() + "\n");
-        }
+
     }
 
     private static <T> List<List<T>> transpose(ArrayList<ArrayList<T>> table) {
